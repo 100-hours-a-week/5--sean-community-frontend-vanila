@@ -1,61 +1,167 @@
 "use strict";
 
 const editButton = document.querySelector('.tail-edit-button');
+const resignButton = document.querySelector('.tail-resign-button');
 const helperText = document.querySelector('.profile-content-helper');
 const mainButton = document.querySelector('.header-title');
 const fileInput = document.getElementById('profile-image-upload');
 const filePreview = document.querySelector('.profile-img');
+const emailField = document.querySelector('.profile-content-email');
+const nicknameInput = document.querySelector('.profile-input');
 const previewContainer = document.querySelector('.profile-img-wrapper');
-//이미지 파일 삽입
-document.addEventListener('DOMContentLoaded', function () {
-    
+const nicknameHelper = document.querySelector('.profile-content-helper');
+const infoModal = document.querySelector('.info-delete-modal');
+const infoModalCancel = document.querySelector('.info-delete-modal-cancel');
+const infoModalConfirm = document.querySelector('.info-delete-modal-confirm');
+let currentUserId = null;
+let originalNickname = null;
+
+
+document.addEventListener('DOMContentLoaded', async function () {
+    try {
+        const sessionResponse = await fetch('http://localhost:3001/users/session', {
+            credentials: 'include'
+        });
+        const sessionData = await sessionResponse.json();
+        currentUserId = sessionData.result;
+
+        const userResponse = await fetch(`http://localhost:3001/users/${currentUserId}`, {
+            credentials: 'include'
+        });
+        const userData = await userResponse.json();
+
+        emailField.textContent = userData.email;
+        nicknameInput.value = userData.nickname;
+        originalNickname = userData.nickname; // 현재 닉네임 저장
+
+
+        if (userData.image) { //to do: db연결 후 db에 이미지 저장되면 그 쪽으로 이미지 경로 수정
+            // 수정된 부분: 절대 경로가 아닌 서버에서 제공된 상대 경로를 사용
+            filePreview.src = `http://localhost:3001/uploads/${userData.image}`;
+        }
+
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
 
     fileInput.addEventListener('change', function (e) {
         const file = e.target.files[0];
-        
-        // 이 부분에서 선택된 파일이 이미지인지 확인
         if (file && file.type.startsWith('image/')) {
             const reader = new FileReader();
-            
             reader.onload = function (e) {
-                // 이미지 미리보기를 표시하기 위한 img 요소를 생성
                 filePreview.src = e.target.result;
-                // 이전에 추가된 이미지를 제거
-                // 새로운 이미지를 추가
             };
-            
             reader.readAsDataURL(file);
         } else {
             alert('이미지 파일을 선택해주세요.');
-            
         }
     });
-});
 
-
-mainButton.addEventListener('click', function(){
-        window.location.href = 'checkpostlist.html';
+    nicknameInput.addEventListener('input', function () {
+        const nickname = nicknameInput.value.trim();
+        if (nickname === originalNickname) {
+            nicknameHelper.textContent = '*기존과 동일한 닉네임입니다.'; // to do: 동일한 닉네임이면 수정되지 않도록 변경
+        } else {
+            nicknameHelper.textContent = '';
+        }
     });
 
-editButton.addEventListener('click', function(event){
-    event.preventDefault();
+    editButton.addEventListener('click', async function(event){
+        event.preventDefault();
+        const nickname = nicknameInput.value.trim();
+        const email = emailField.textContent;
+        const file = fileInput.files[0];
+        
+        if (!nickname) {
+            helperText.textContent = '*닉네임을 입력해주세요.';
+            return;
+        }
+        if (nickname.length > 10) {
+            helperText.textContent = '*닉네임을 최대 10자 까지 작성이 가능합니다.';
+            return;
+        }
 
-    var nicknameInput = document.querySelector('.profile-input');
-    if(!nicknameInput.value ){
-        helperText.textContent = '*닉네임을 입력해주세요.';
-        return;
-    }
-    if(nicknameInput.value.length > 10){
-        helperText.textContent = '*닉네임을 최대 10자 까지 작성이 가능합니다.';
-        return;
-    }
+        try {
+            const userResponse = await fetch(`http://localhost:3001/users`, {
+                method: 'GET'
+            });
+            const users = await userResponse.json();
+            const isNicknameTaken = users.some(user => user.nickname === nickname && user.userid !== currentUserId);
+            if (isNicknameTaken) {
+                helperText.textContent = '*중복된 닉네임입니다.';
+                return;
+            }
 
-    alert('수정 완료') //수정하기 누르면 수정완료라는 토스트 메세지 나오게 바꿔야함.
+            let base64Image = null;
+            if (file) {
+                const reader = new FileReader();
+                base64Image = await new Promise((resolve, reject) => {
+                    reader.onload = function (e) {
+                        resolve(e.target.result.split(',')[1]);
+                    };
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            const data = { nickname, image: base64Image };
+            const response = await fetch(`http://localhost:3001/users/${currentUserId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert('수정 완료');
+                window.location.href = 'checkpostlist.html';
+            } else {
+                helperText.textContent = '수정 실패. 서버에서 문제가 발생했습니다.';
+            }
+        } catch (error) {
+            console.error('Error updating user data:', error);
+            helperText.textContent = '수정 중 에러가 발생했습니다.';
+        }
+    });
+
+    resignButton.addEventListener('click', function(){
+        infoModal.style.display = 'block';
+    });
+
+    infoModalCancel.addEventListener('click', function(){
+        infoModal.style.display = 'none';
+    });
+
+    infoModalConfirm.addEventListener('click', async function(){
+        try {
+            const response = await fetch(`http://localhost:3001/users/${currentUserId}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            if (response.ok) {
+                alert('회원 탈퇴가 완료되었습니다.');
+                window.location.href = 'login.html';
+            } else {
+                alert('회원 탈퇴 실패. 서버에서 문제가 발생했습니다.');
+            }
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            alert('회원 탈퇴 중 에러가 발생했습니다.');
+        }
+        infoModal.style.display = 'none';
+    });
+
+
 
 });
 
-//헤더 프로필 이미지 호버 배경 변경
+
 const menuItems = document.querySelectorAll('.menu-item');
+
+mainButton.addEventListener('click', function(){
+    window.location.href = 'checkpostlist.html';
+});
 
 menuItems.forEach(function(menuItem) {
     menuItem.addEventListener('mouseover', function() {
@@ -66,52 +172,6 @@ menuItems.forEach(function(menuItem) {
         menuItem.style.backgroundColor = '#d9d9d9';
     });
 });
-
-// 프로필 이미지 클릭 이벤트 추가
-document.addEventListener('DOMContentLoaded', function() {
-    var menuItems = document.querySelectorAll('.menu-item');
-
-    // 첫 번째 menu-item (회원정보수정)에 클릭 이벤트 추가
-    menuItems[0].addEventListener('click', function() {
-        // 오타로 인한 문제를 JS로 해결
-        window.location.href = 'modifyinfo.html'; // 오타가 있는 herf 속성 사용
-    });
-
-    // 두 번째 menu-item (비밀번호수정)에 클릭 이벤트 추가
-    menuItems[1].addEventListener('click', function() {
-        window.location.href = 'modifypasswd.html'; // 비밀번호 변경 페이지로 이동
-    });
-
-    // 세 번째 menu-item (로그아웃)에 클릭 이벤트 추가
-    menuItems[2].addEventListener('click', function() {
-        window.location.href = 'login.html'; // 로그아웃 처리 페이지로 이동
-    });
-});
-
-
-//모달 팝업창으로 수정해야함.
-
-    var infoModal = document.querySelector('.info-delete-modal');
-    const infoModalOpen = document.querySelector('.tail-resign-button');
-    const infoModalCancel = document.querySelector('.info-delete-modal-cancel');
-    const infoModalConfirm = document.querySelector('.info-delete-modal-confirm')
-
-    //게시글 삭제 모달
-    infoModalOpen.addEventListener('click',function(){
-        //display 속성을 block로 변경
-            infoModal.style.display = 'block';
-        });
-        infoModalCancel.addEventListener('click',function(){
-        //display 속성을 none으로 변경
-            infoModal.style.display = 'none';
-        });
-    
-        infoModalConfirm.addEventListener('click', function(){
-            infoModal.style.display = 'none';
-            window.location.href = "checkpostlist.html"
-        });
-
-
 
 
 /*

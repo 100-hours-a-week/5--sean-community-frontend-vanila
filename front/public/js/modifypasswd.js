@@ -23,6 +23,8 @@
     const passwordHelper = document.querySelector('.body-passwd-helper');
     const passwordCheckHelper = document.querySelector('.body-passwdck-helper');
     const mainButton = document.querySelector('.header-title');
+    let currentUserId = null;
+
 
     mainButton.addEventListener('click', function(){
         window.location.href = 'checkpostlist.html';
@@ -62,36 +64,64 @@
             menuItem.style.backgroundColor = '#d9d9d9';
         });
     });
+     // 첫 번째 menu-item (회원정보수정)에 클릭 이벤트 추가
 
-    // 프로필 이미지 클릭 이벤트 추가
-    document.addEventListener('DOMContentLoaded', function() {
-        var menuItems = document.querySelectorAll('.menu-item');
 
-        // 첫 번째 menu-item (회원정보수정)에 클릭 이벤트 추가
+    document.addEventListener('DOMContentLoaded',async function() {
+
         menuItems[0].addEventListener('click', function() {
             // 오타로 인한 문제를 JS로 해결
             window.location.href = 'modifyinfo.html'; // 오타가 있는 herf 속성 사용
         });
-
+    
         // 두 번째 menu-item (비밀번호수정)에 클릭 이벤트 추가
         menuItems[1].addEventListener('click', function() {
             window.location.href = 'modifypasswd.html'; // 비밀번호 변경 페이지로 이동
         });
-
+    
         // 세 번째 menu-item (로그아웃)에 클릭 이벤트 추가
         menuItems[2].addEventListener('click', function() {
             window.location.href = 'login.html'; // 로그아웃 처리 페이지로 이동
         });
+
+        try {
+            const sessionResponse = await fetch('http://localhost:3001/users/session', {
+                credentials: 'include'
+            });
+            const sessionData = await sessionResponse.json();
+            currentUserId = sessionData.result;
+        } catch (error) {
+            console.error('Error fetching session data:', error);
+        }
+
     });
     //=======================================================================================
 
-
-    editButton.addEventListener('click', function(event){
+    editButton.addEventListener('click', async function(event){
         event.preventDefault();
         if(!editButton.disabled){
-            alert('수정 성공');
+            try {
+                const password = passwordInput.value.trim();
+                const data = { password };
+                const response = await fetch(`http://localhost:3001/users/${currentUserId}/password`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+    
+                if (response.ok) {
+                    alert('수정 성공');
+                    window.location.href = 'checkpostlist.html';
+                } else {
+                    passwordHelper.textContent = '수정 실패. 서버에서 문제가 발생했습니다.';
+                }
+            } catch (error) {
+                console.error('Error updating password:', error);
+                passwordHelper.textContent = '수정 중 에러가 발생했습니다.';
+            }
         }
-
     });
 
     //비밀번호 유효성 검사

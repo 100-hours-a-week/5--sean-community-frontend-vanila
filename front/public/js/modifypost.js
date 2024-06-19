@@ -7,7 +7,7 @@ const completeButton = document.querySelector('.complete-button');
 const menuItems = document.querySelectorAll('.menu-item');
 const mainButton = document.querySelector('.header-title');
 
-    mainButton.addEventListener('click', function(){
+mainButton.addEventListener('click', function(){
         window.location.href = 'checkpostlist.html';
     });
 
