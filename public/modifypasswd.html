@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="kr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="modifypasswd.css">
+        <title>아무말 대잔치 회원정보수정</title>
+        <script src="js/common.js" defer></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="header-main">
+                    <input class="header-prev-button" type="button" value="<" onclick="history.back();" />
+                    <span class="header-title">아무 말 대잔치</span>
+                    <!-- 이미지 버튼  -->
+                    <div class="image-menu-container">
+                        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+                        <label for="menu-toggle" class="image-button">
+                            <img src="/images/488penguin2_100230.png" alt="Menu" width="36px" height="36px">
+                        </label>
+                        <div class="menu-items">
+                            <a herf="modifyinfo.html" class="menu-item">회원정보수정</a>
+                            <div class="menu-item">비밀번호수정</div>
+                            <div class="menu-item">로그아웃</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="body-wrapper">
+                    <div class="body-title">비밀번호 수정</div>
+                    <div class="body-content-wrapper">
+                        <div class="body-passwd">비밀번호</div>
+                        <input type="text" class="body-passwd-input" placeholder="비밀번호를 입력하세요">
+                        <div class="body-passwd-helper">*helper text</div>
+                        <div class="body-passwdck">비밀번호 확인</div>
+                        <input type="text" class="body-passwdck-input" placeholder="비밀번호를 한번 더 입력하세요">
+                        <div class="body-passwdck-helper">*helper text</div>
+                    </div>
+                    <a href="checkpostlist.html" class="edit-button">수정하기</a>
+                </div>
+            </div>
+
+        </div>
+        <script src="js/modifypasswd.js"></script>
+    </body>
+</html>

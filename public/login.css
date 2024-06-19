@@ -1,0 +1,123 @@
+
+  /* 폰트 추가 */
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
+  /* 페이지 설정 */
+
+body {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+    background-color: #f4f5f7;
+    font-family: Pretendard;
+}
+
+.body-content-wrapper{
+  width: 400px;
+  
+}
+
+
+  /* 헤더 */
+.header-main {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    gap: 30px;
+    border-bottom: 1px solid black;
+}
+
+
+
+.header-title {
+    align-items: center;
+    margin: 0 70px;
+    font-size: 35px;
+}
+
+
+.main{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.body-title{
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin-top: 160px;
+}
+
+.email{
+    margin-top: 80px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.body-email-input{
+    width: 384px;
+    font-size: 14px;
+    font-weight: 400;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 1px;
+}
+
+.body-passwd{
+    margin-top: 16px;
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.body-passwd-input{
+    width: 384px;
+    font-size: 14px;
+    font-weight: 400;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 1px;
+}
+
+.body-passwd-helper{
+    font-size: 12px;
+    font-weight: 400;
+    color: red;
+    margin-bottom: 15px;
+    word-break:break-word;
+}
+
+.login-button{
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 33px;
+    background-color: #ACA0EB;
+    color: #fff;
+    border-radius: 4px;
+    width: 400px;
+    height: 33px;
+    margin: 10px 0;
+}
+
+.go-signup{
+  text-decoration: none;
+  color: #000000;
+  display: block;
+  text-align: center;
+  font-size: 14px;
+  justify-content: center;
+}

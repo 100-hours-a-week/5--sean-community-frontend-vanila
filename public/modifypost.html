@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>테스트</title>
+        <link rel="stylesheet" type="text/css" href="modifypost.css" />
+        <script src="js/common.js" defer></script>
+    </head>
+    <body>
+    <div class="container">
+        <div class="header-wrapper">
+            <div class="header-main">
+                <input class="header-prev-button" type="button" value="<" onclick="history.back();" />
+                <span class="header-title">아무 말 대잔치</span>
+                <!-- 이미지 버튼  -->
+                <div class="image-menu-container">
+                    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+                    <label for="menu-toggle" class="image-button">
+                        <img src="/images/488penguin2_100230.png" alt="Menu" width="36px" height="36px">
+                    </label>
+                    <div class="menu-items">
+                        <a herf="modifyinfo.html" class="menu-item">회원정보수정</a>
+                        <div class="menu-item">비밀번호수정</div>
+                        <div class="menu-item">로그아웃</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="content-header-wrapper">
+                <div class="content-header-title">게시글 수정</div>
+                <div class="content-header-subtitle">제목*</div>
+                <input type="text" maxlength="27" class="content-header-subtitle-input" placeholder="제목 1"></div>
+            </div>
+            <div class="content-body-wrapper">
+                <div class="content-body-subtitle">내용*</div>
+                <div class="body-input-wrapper">
+                    <textarea id="body-input" required placeholder="내용을 입력하세요"></textarea>
+                </div>
+            <div class="content-tail-wrapper">
+                <div class="content-tail-helper">*helper text</div>
+                <div class="content-tail-img-title">이미지</div>
+                    <div class="file-upload-container">
+                        <label for="file-upload" class="content-tail-img-button">
+                            파일 선택
+                        </label>
+                        <span class="file-upload-text">기존 파일 명</span>
+                        <input id="file-upload" type="file" >
+                    </div>
+                
+            <div class="content-complete-wrapper">
+                <p class="complete-button">수정하기</p>
+            </div>
+            </div>
+        </div>
+        <script src="js/modifypost.js"></script>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>테스트</title>
+        <script src="js/common.js" defer></script>
+        <link rel="stylesheet" href="./createpost.css" />
+    </head>
+    <body>
+    <div class="container">
+        <div class="header-wrapper">
+            <div class="header-main">
+                <input class="header-prev-button" type="button" value="<" onclick="history.back();" />
+                <span class="header-title">아무 말 대잔치</span>
+                <div class="image-menu-container">
+                    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+                    <label for="menu-toggle" class="image-button">
+                        <img src="/images/488penguin2_100230.png" alt="Menu" width="36px" height="36px">
+                    </label>
+                    <div class="menu-items">
+                        <a herf="modifyinfo.html" class="menu-item">회원정보수정</a>
+                        <div class="menu-item">비밀번호수정</div>
+                        <div class="menu-item">로그아웃</div>
+                    </div>
+                </div>            
+            </div>
+        </div>
+        <div class="main">
+            <div class="content-header-wrapper">
+                <div class="content-header-title">게시글 작성</div>
+                <div class="content-header-subtitle">제목*</div>
+                <input type="text" maxlength="27" class="content-header-subtitle-input" placeholder="제목을 입력해주세요. (최대26글자)"></div>
+            </div>
+            <div class="content-body-wrapper">
+                <div class="content-body-subtitle">내용*</div>
+                <div class="body-input-wrapper">
+                    <textarea id="body-input" required placeholder="내용을 입력하세요"></textarea>
+                </div>
+            <div class="content-tail-wrapper">
+                <div class="content-tail-helper">*helper text</div>
+                <div class="content-tail-img-title">이미지</div>
+                    <div class="file-upload-container">
+                        <label for="file-upload" class="content-tail-img-button">
+                            파일 선택
+                        </label>
+                        <span class="file-upload-text">파일을 선택하세요</span>
+                        <input id="file-upload" type="file" >
+                    </div>
+                    <div class="image-preview-wrapper">
+                        <!-- 이미지 미리보기가 여기에 표시 -->
+                    </div>
+            <div class="content-complete-wrapper">
+                <a href="http://localhost:8080/checkpostlist.html" class="complete-button">완료</a>
+            </div>
+            </div>
+        </div>
+        <script src="js/createpost.js" defer=""></script> 
+    </body>
+</html>

@@ -1,0 +1,300 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+body {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background-color: #f4f5f7;
+  font-family: Pretendard;
+}
+
+  /* 헤더 */
+
+  .header-main {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    gap: 30px;
+    border-bottom: 1px solid black;
+}
+
+.content-wrapper{
+    margin-bottom: 30px;
+}
+
+.header-prev-button{
+    font-size : 32px;
+    border: none;
+    background-color: #f4f5f7;
+}
+
+.header-title {
+    align-items: center;
+    margin: 0 70px;
+    font-size: 35px;
+}
+
+/* 헤더 메뉴 */
+.image-menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-toggle {
+    display: none;
+}
+
+.menu-items {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%; /* 이미지 바로 아래 위치 */
+    background-color: #d9d9d9;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;/**/
+    white-space: nowrap; /* 글자 세로로 안나오게 */
+}
+
+.menu-item {
+    color: black;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* 체크박스가 체크되었을 때 메뉴 표시 */
+.menu-toggle:checked + .image-button + .menu-items {
+    display: block;
+}
+
+/* 바디 헤더 */
+
+.main{
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  flex-direction: column;
+}
+
+.content-header{
+  justify-content: center;
+  width: 450px;
+}
+
+.content-header-title{
+  font-size: 34px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 230px;
+}
+
+.content-header-profile-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f5f7;
+  padding: 15px;
+}
+
+.profile-header{
+font-size: 15px;
+font-weight: 700;
+text-align: left;
+padding-top: 30px;
+margin-right: 340px;
+}
+
+.profile-helper{
+  padding: 5px;
+  color: #ff0000;
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: left;
+  margin-right: 350px;
+
+}
+
+.profile-img-wrapper{
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+
+.profile-img{
+  width: 150px;
+  height: 150px;
+  background-color: #C4C4C4;
+  border-radius: 50%;
+}
+
+.upload-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0; /* 회색 배경 */
+  border-radius: 50%; /* 원 모양 */
+  font-size: 30px; /* '+' 기호 크기 */
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.upload-button span{
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+
+.upload-button input[type="file"] {
+  display: none; /* 파일 입력 필드 숨기기 */
+}
+/* sign up wrapper */
+.sign-up-wrapper{
+  width: 370px;
+}
+
+/* 이메일 입력 */
+
+
+.sign-up-email{
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  margin-top: 50px;
+}
+
+.sign-up-email-input{
+  border-radius: 4px;
+  border: 1px solid #000000;
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.sign-up-email-helper{
+  color: #ff0000;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* 비밀번호 */
+.sign-up-passwd{
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  margin-top: 12px;
+}
+
+.sign-up-passwd-input{
+  border-radius: 4px;
+  border: 1px solid #000000;
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.sign-up-passwd-helper{
+  color: #ff0000;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* 비밀번호 확인 */
+.sign-up-passwdck{
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  margin-top: 12px;
+}
+
+.sign-up-passwdck-input{
+  border-radius: 4px;
+  border: 1px solid #000000;
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.sign-up-passwdck-helper{
+  color: #ff0000;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* 닉네임 */
+
+.sign-up-name{
+  font-size: 15px;
+  font-weight: 700;
+  text-align: left;
+  margin-top: 12px;
+}
+
+.sign-up-name-input{
+  border-radius: 4px;
+  border: 1px solid #000000;
+  width: 100%;
+  padding: 8px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.sign-up-name-helper{
+  color: #ff0000;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* 회원가입 버튼, 로그인하러가기. */
+
+.sign-up-button-wrapper{
+  width: 375px;
+}
+
+.sign-up-button{
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 33px;
+  background-color: #ACA0EB;
+  color: #fff;
+  border-radius: 4px;
+  width: 388px;
+  height: 33px;
+  margin: 10px 0;
+}
+
+.go-to-login{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  width: 388px;
+  color:#000000;
+}
+
+

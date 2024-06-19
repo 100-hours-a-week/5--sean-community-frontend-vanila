@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>테스트</title>
+    <script src="js/common.js" defer></script>
+    <link rel="stylesheet" href="./detailpost.css" />
+  </head>
+
+  <body>
+    <div class="content-delete-modal">
+      <div class="content-delete-modal-popup">
+          <p>게시글을 삭제하시겠습니까?</p>
+          <p>삭제한 내용은 복구할 수 없습니다.</p>
+          <button type="button" class="content-delete-modal-cancel">취소</button>
+          <button type="button" class="content-delete-modal-confirm">확인</button>
+      </div>
+    </div>
+    <div class="comment-delete-modal">
+      <div class="comment-delete-modal-popup">
+          <p>댓글을 삭제하시겠습니까?</p>
+          <p>삭제한 내용은 복구할 수 없습니다.</p>
+          <button type="button" class="comment-delete-modal-cancel">취소</button>
+          <button type="button" class="comment-delete-modal-confirm">확인</button>
+      </div>
+    </div>
+    <div class="container">
+      <div class="header-wrapper">
+        <div class="header-main">
+          <input class="header-prev-button" type="button" value="<" onclick="history.back();" />
+          <span class="header-title">아무 말 대잔치</span>
+          <div class="image-menu-container">
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="image-button">
+                <img src="/images/488penguin2_100230.png" alt="Menu" width="36px" height="36px">
+            </label>
+            <div class="menu-items">
+                <a herf="modifyinfo.html" class="menu-item">회원정보수정</a>
+                <div class="menu-item">비밀번호수정</div>
+                <div class="menu-item">로그아웃</div>
+            </div>
+          </div>        
+        </div>
+      </div>
+      <div class="content-wrapper">
+        <div class="main">
+          <div class="content-header">
+            <div class="content-title">제목1</div>
+            <div class="content-author-wrapper">
+              <div class="content-author">
+                <div class="content-author-profile">
+                  <img src="/images/15674535-circulo-plana-icone-em-escala-de-cinza-vetor.jpg" class="content-author-img" width="36px" height="36px">
+                  <p>더미 작성자1</p>
+                </div>
+                <div class="content-author-date">2021-01-01 00:00:00</div>
+              </div>
+              <div class="content-button2">
+                <button class="content-edit-button">수정</button>
+                <button class="content-delete-button">삭제</button>
+              </div>
+            </div>
+          </div>
+          <div class="content-body">
+            <img
+              src="https://picsum.photos/200/300"
+              alt="이미지"
+              class="content-thumbnail"
+            />
+            <div class="content-paragraph">
+              facere, laboriosam amet eligendi, impedit libero aliquam? Nulla
+              tempora optio deserunt iure, cumque necessitatibus saepe earum
+              commodi, molestiae, repellendus hic? Nesciunt reiciendis, quam
+              repellat harum, consequatur cumque soluta culpa veritatis vero
+              saepe molestias sapiente enim perspiciatis maiores. Nemo explicabo
+              hic omnis similique impedit, maiores quisquam reiciendis eos
+              voluptatem cupiditate consequatur! Modi, maiores. Impedit illum
+              porro explicabo, similique dicta perferendis. Voluptates tempore
+              distinctio sint ut dolorum repudiandae maiores! Magnam doloremque
+              tenetur quisquam beatae, perspiciatis corporis aspernatur quae,
+              veniam dolores nemo expedita eaque nam, ut dolor est ullam
+              pariatur et possimus consequatur quia tempora voluptates amet
+            </div>
+            <div class="content-button">
+              <div class="content-view-button">
+                <p>1000</p>
+                <p>조회수</p>
+              </div>
+              <div class="content-comment-button">
+                <p>10000</p>
+                <p>댓글</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="comment-wrapper">
+          <div class="comment-box">
+            <input
+              class="comment-box-content"
+              placeholder="댓글을 남겨주세요."
+            />
+            <div class="comment-box-submit-button-wrapper">
+              <button class="comment-box-submit-button">댓글 등록</button>
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="comment-author-wrapper">
+              <div class="comment-author">
+                <div class="comment-author-header">
+                  <div class="comment-author-profile">
+                    <p>더미 작성자1</p>
+                  </div>
+                  <div class="comment-author-date">2021-01-01 00:00:00</div>
+                </div>
+                <div class="comment-author-content">댓글 내용</div>
+              </div>
+              <div class="comment-button">
+                <button class="comment-edit-button">수정</button>
+                <button class="comment-delete-button">삭제</button>
+              </div>
+            </div>
+            <div class="comment-author-wrapper">
+              <div class="comment-author">
+                <div class="comment-author-header">
+                  <div class="comment-author-profile">
+                    <p>더미 작성자1</p>
+                  </div>
+                  <div class="comment-author-date">2021-01-01 00:00:00</div>
+                </div>
+                <div class="comment-author-content">댓글 내용</div>
+              </div>
+              <div class="comment-button">
+                <button class="comment-edit-button">수정</button>
+                <button class="comment-delete-button">삭제</button>
+              </div>
+            </div>
+            <div class="comment-author-wrapper">
+              <div class="comment-author">
+                <div class="comment-author-header">
+                  <div class="comment-author-profile">
+                    <p>더미 작성자1</p>
+                  </div>
+                  <div class="comment-author-date">2021-01-01 00:00:00</div>
+                </div>
+                <div class="comment-author-content">댓글 내용</div>
+              </div>
+              <div class="comment-button">
+                <button class="comment-edit-button">수정</button>
+                <button class="comment-delete-button">삭제</button>
+              </div>
+            </div>
+            <div class="comment-author-wrapper">
+              <div class="comment-author">
+                <div class="comment-author-header">
+                  <div class="comment-author-profile">
+                    <p>더미 작성자1</p>
+                  </div>
+                  <div class="comment-author-date">2021-01-01 00:00:00</div>
+                </div>
+                <div class="comment-author-content">댓글 내용</div>
+              </div>
+              <div class="comment-button">
+                <button class="comment-edit-button">수정</button>
+                <button class="comment-delete-button">삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/detailpost.js"></script>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="kr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="modifyinfo.css">
+        <title>아무말 대잔치 회원정보수정</title>
+        <script src="js/common.js" defer></script>
+    </head>
+
+    <body>
+        <div class="info-delete-modal">
+            <div class="info-delete-modal-popup">
+                <p>회원탈퇴 하시겠습니까?</p>
+                <p>작성된 게시글과 댓글은 삭제됩니다.</p>
+                <button type="button" class="info-delete-modal-cancel">취소</button>
+                <button type="button" class="info-delete-modal-confirm">확인</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="header-wrapper">
+                <div class="header-main">
+                    <input class="header-prev-button" type="button" value="<" onclick="history.back();" />
+                    <span class="header-title">아무 말 대잔치</span>
+                    <!-- 이미지 버튼  -->
+                    <div class="image-menu-container">
+                        <input type="checkbox" id="menu-toggle" class="menu-toggle">
+                        <label for="menu-toggle" class="image-button">
+                            <img src="/images/488penguin2_100230.png" alt="Menu" width="36px" height="36px">
+                        </label>
+                        <div class="menu-items">
+                            <a herf="modifyinfo.html" class="menu-item">회원정보수정</a>
+                            <div class="menu-item">비밀번호수정</div>
+                            <div class="menu-item">로그아웃</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="body-profile">
+                    <div class="body-profile-title">회원정보수정</div>
+                    <div class="body-profile-name">프로필 사진*</div>
+                    <!-- 프로필 이미지 변경 -->
+                    <div class="profile-img-wrapper">
+                        <img class="profile-img" src="/images/488penguin2_100230.png" width="190px" height="190px">
+                        <label for="profile-image-upload" class="profile-upload-button">변경</label>
+                        <input id="profile-image-upload" type="file" style="display: none;" >
+                    </div>
+                    <!-- 프로필 이미지 변경 -->
+                </div>
+                <div class="profile-content-wrapper">
+                    <div class="profile-content-container">
+                        <div class="profile-content-email-title">이메일</div>
+                        <div class="profile-content-email">loading...</div>
+                        <div class="profile-content-name">닉네임</div>
+                        <input type="text" class="profile-input" placeholder="닉네임을 입력해주세요">
+                        <div class="profile-content-helper">*helper text</div>
+                    </div>
+                
+                    <div class="tail-button-wrapper">
+                        <p class="tail-edit-button">수정하기</p>
+                        <button class="tail-resign-button">회원 탈퇴</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="js/modifyinfo.js"></script>
+    </body>
+</html>

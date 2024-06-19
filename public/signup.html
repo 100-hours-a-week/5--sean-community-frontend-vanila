@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>테스트</title>
+        <link rel="stylesheet" href="./signup.css" />
+    </head>
+    <body>
+    <div class="container">
+        <div class="header-wrapper">
+            <div class="header-main">
+                <input class="header-prev-button" type="button" value="<" onclick="history.back();" />
+                <span class="header-title">아무 말 대잔치</span>
+                <!-- 이미지 버튼  -->
+                <div class="image-menu-container">
+                    <input type="checkbox" id="menu-toggle" class="menu-toggle">
+                    <label for="menu-toggle" class="image-button">
+                        <img src="/images/488penguin2_100230.png" alt="Menu" width="36px" height="36px">
+                    </label>
+                    <div class="menu-items">
+                        <a herf="modifyinfo.html" class="menu-item">회원정보수정</a>
+                        <div class="menu-item">비밀번호수정</div>
+                        <div class="menu-item">로그아웃</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="content-header">
+                <div class="content-header-title">회원가입</div>
+                <div class="content-header-profile-wrapper">
+                    <div class="profile-header">프로필 사진</div>
+                    <div class="profile-helper">*helper text</div>
+                    <div class="profile-img-wrapper">
+                        <div class="profile-img-wrapper">
+                            <div class="profile-img"></div>
+                            <div class="upload-button">
+                                <input type="file" id="profileInput" accept="image/*" style="display:none">
+                                <span onclick="document.getElementById('profileInput').click()">+</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-body">
+                <div class="sign-up-wrapper">
+                    <div class="sign-up-email-wrapper">
+                        <div class="sign-up-email">이메일*</div>
+                        <input type="email" class="sign-up-email-input" placeholder="이메일을 입력하세요">
+                        <div class="sign-up-email-helper">*helper text</div>
+                    </div>
+                    <div class="sign-up-passwd-wrapper">
+                        <div class="sign-up-passwd">비밀번호*</div>
+                        <input type="email" class="sign-up-passwd-input" placeholder="비밀번호를 입력하세요">
+                        <div class="sign-up-passwd-helper">*helper text</div>
+                    </div>
+                    <div class="sign-up-passwdck-wrapper">
+                        <div class="sign-up-passwdck">비밀번호 확인*</div>
+                        <input type="email" class="sign-up-passwdck-input" placeholder="비밀번호를 한번 더 입력하세요">
+                        <div class="sign-up-passwdck-helper">*helper text</div>
+                    </div>
+                    <div class="sign-up-name-wrapper">
+                        <div class="sign-up-name">닉네임*</div>
+                        <input type="email" class="sign-up-name-input" placeholder="닉네임을 입력하세요">
+                        <div class="sign-up-name-helper">*helper text</div>
+                    </div>
+                </div>
+                <div class="sign-up-button-wrapper">
+                    <p class="sign-up-button">회원가입</p>
+                    <a href="로그인.html" class="go-to-login">로그인하러 가기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/signup.js"></script>
+    </body>
+</html>
