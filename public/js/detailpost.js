@@ -6,7 +6,7 @@ var commentCount = document.querySelector('.content-comment-button p');
 var commentInput = document.querySelector('.comment-box-content');
 var commentSubmitButton = document.querySelector('.comment-box-submit-button');
 var contentModal = document.querySelector('.content-delete-modal');
-const contentModalOpen = document.querySelector('.content-delete-button');
+const deleteButton = document.querySelector('.content-delete-button');
 const contentModalCancel = document.querySelector('.content-delete-modal-cancel');
 const contentModalConfirm = document.querySelector('.content-delete-modal-confirm')
 const commentModal = document.querySelector('.comment-delete-modal');
@@ -16,6 +16,7 @@ const mainButton = document.querySelector('.header-title');
 var isEditing = false;
 var currentEditingComment = null;
 var currentCommentId = null;
+var currentUserId = null;
 
 mainButton.addEventListener('click', function(){
     window.location.href = 'checkpostlist.html';
@@ -35,7 +36,7 @@ menuItems.forEach(function(menuItem) {
 });
 
 // 프로필 이미지 클릭 이벤트 추가
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded',async function() {
     var menuItems = document.querySelectorAll('.menu-item');
 
     // 첫 번째 menu-item (회원정보수정)에 클릭 이벤트 추가
@@ -52,6 +53,17 @@ document.addEventListener('DOMContentLoaded', function() {
     menuItems[2].addEventListener('click', function() {
         window.location.href = 'login.html';
     });
+
+    try {
+        const sessionResponse = await fetch('http://localhost:3001/users/session', {
+            credentials: 'include'
+        });
+        const sessionData = await sessionResponse.json();
+        currentUserId = sessionData.result;
+    } catch (error) {
+        console.error('Error fetching session data:', error);
+    }
+
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -77,12 +89,65 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelector('.content-view-button p:first-child').textContent = formatCount(Number(post.views));
                 document.querySelector('.content-comment-button p:first-child').textContent = formatCount(Number(post.comments));
             }
+        
 
             // 게시글 수정 버튼 이벤트 추가
-            editButton.addEventListener('click', function() {
-                localStorage.setItem('editingPost', JSON.stringify(post));
-                window.location.href = `modifypost.html?postId=${post.id}`;
+            editButton.addEventListener('click', function(e) {
+                if (post.userId !== currentUserId) {
+                    e.preventDefault();
+                    alert('게시글 작성자만 수정할 수 있습니다.');
+                    return;
+                }
+                else {
+                    localStorage.setItem('editingPost', JSON.stringify(post));
+                    window.location.href = `modifypost.html?postId=${post.id}`;
+                }
+                
             });
+
+            // 게시글 삭제 버튼 이벤트 추가
+            deleteButton.addEventListener('click',function(e){
+                //display 속성을 block로 변경
+                if (post.userId !== currentUserId) {
+                    e.preventDefault();
+                    alert('게시글 작성자만 삭제할 수 있습니다.');
+                    return;
+                }
+                else {
+                    contentModal.style.display = 'block';
+                }
+            });
+                
+                //게시글 삭제 취소
+            contentModalCancel.addEventListener('click',function(){
+            //display 속성을 none으로 변경
+                contentModal.style.display = 'none';
+            });
+                //게시글 삭제
+            contentModalConfirm.addEventListener('click', async function(){   
+                // URL에서 postId 파라미터 값을 가져옵니다.
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const postId = urlParams.get('postId');
+                    try {
+                        const response = await fetch(`http://localhost:3001/posts/${postId}`, {
+                            method: 'DELETE',
+                        });
+                        if (response.ok) { // 성공적으로 삭제되었을 때
+                            alert('삭제되었습니다.');
+                            contentModal.style.display = 'none';
+                            window.location.href = 'checkpostlist.html';
+                            // 삭제 후, 홈페이지나 다른 페이지로 리다이렉트 할 수 있습니다.
+                            // 예: window.location.href = 'index.html';
+                        } else {
+                            // 서버에서 문제가 발생했을 때의 처리
+                            alert('삭제 실패. 서버에 문제가 발생했습니다.');
+                            
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('삭제 중 에러가 발생했습니다.');
+                    }
+                });
         })
         .catch(error => console.error('Error loading post data:', error));
     
@@ -274,46 +339,7 @@ function formatCount(count) {
     }
 }
 
-
-
-    //게시글 삭제 모달 오픈
-    contentModalOpen.addEventListener('click',function(){
-    //display 속성을 block로 변경
-        contentModal.style.display = 'block';
-    });
-
-    //게시글 삭제 취소
-    contentModalCancel.addEventListener('click',function(){
-    //display 속성을 none으로 변경
-        contentModal.style.display = 'none';
-    });
-
-    //게시글 삭제
-contentModalConfirm.addEventListener('click', async function(){   
-    // URL에서 postId 파라미터 값을 가져옵니다.
-        const urlParams = new URLSearchParams(window.location.search);
-        const postId = urlParams.get('postId');
-        try {
-            const response = await fetch(`http://localhost:3001/posts/${postId}`, {
-                method: 'DELETE',
-            });
-            if (response.ok) { // 성공적으로 삭제되었을 때
-                alert('삭제되었습니다.');
-                contentModal.style.display = 'none';
-                window.location.href = 'checkpostlist.html';
-                // 삭제 후, 홈페이지나 다른 페이지로 리다이렉트 할 수 있습니다.
-                // 예: window.location.href = 'index.html';
-            } else {
-                // 서버에서 문제가 발생했을 때의 처리
-                alert('삭제 실패. 서버에 문제가 발생했습니다.');
-                
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('삭제 중 에러가 발생했습니다.');
-        }
-    });
-
+// to do: 조회수, 댓글, 좋아요 기능 구현
 
 
 

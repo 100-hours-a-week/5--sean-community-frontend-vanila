@@ -2,6 +2,8 @@
 const titleInput = document.querySelector('.content-header-subtitle-input');
 const fileUpload = document.getElementById('file-upload');
 const completeButton = document.querySelector('.complete-button');
+const contentBody = document.getElementById('body-input');
+const previewContainer = document.querySelector('.file-upload-text');
 
 //헤더 프로필 이미지 호버 배경 변경
 const menuItems = document.querySelectorAll('.menu-item');
@@ -43,39 +45,69 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    
-    fileUpload.addEventListener('change', function() {
-        if (this.files.length > 1) {
-            alert('이미지 파일은 1개만 업로드할 수 있습니다.');
-            this.value = ''; // 선택된 파일 초기화
-        }
-    });
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('postId');
 
     fetch(`http://localhost:3001/posts`)
-    .then(response => response.json())
-    .then(data => {
-        data.forEach(post => {
-        if(data.id !== postId){
-            return;
-        } else{
-            document.querySelector('.content-header-subtitle-input').value = data.title;
-            document.getElementById('body-input').value = data.content;
+        .then(response => response.json())
+        .then(data => {
+            const post = data.find(post => post.id == postId);
+            if (post) {
+                titleInput.value = post.title;
+                contentBody.value = post.content;
+                if (post.image) {
+                    const img = document.createElement('img');
+                    img.src = `http://localhost:3001${post.image}`;
+                    img.style.maxWidth = '100%';
+                    img.style.height = 'auto';
+                    previewContainer.textContent = '';
+                    previewContainer.appendChild(img);
+                } else {
+                    previewContainer.textContent = '기존 파일 명';
+                }
+            }
+        });
+
+    fileUpload.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '100%';
+                img.style.height = 'auto';
+                previewContainer.innerHTML = '';
+                previewContainer.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('이미지 파일을 선택해주세요.');
+            this.value = '';
         }
     });
-});
 });
 // 예를 들어, 수정 폼의 제출 버튼에 대한 이벤트 리스너를 추가합니다.
 completeButton.addEventListener('click', async function(e) {
     e.preventDefault(); // 폼 기본 제출 방지
-
-    // URL에서 postId 파라미터 값을 가져옵니다.
+    
     const postId = new URLSearchParams(window.location.search).get('postId');
-    // 수정 폼에서 데이터를 가져옵니다.
-    const title = document.querySelector('.content-header-subtitle-input').value;
-    const content = document.getElementById('body-input').value;
-    // 데이터를 서버로 보내는 fetch 요청
+    const title = titleInput.value.trim();
+    const content = contentBody.value.trim();
+    const file = fileUpload.files[0];
+    let base64Image = null;
+
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        base64Image = await new Promise((resolve, reject) => {
+            reader.onload = function(e) {
+                resolve(e.target.result.split(',')[1]);
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
     try {
         const response = await fetch(`http://localhost:3001/posts/${postId}`, {
         method: 'PUT',
@@ -85,17 +117,14 @@ completeButton.addEventListener('click', async function(e) {
         body: JSON.stringify({
             title: title,
             content: content,
-            // 기타 필드도 포함
+            image: base64Image // 수정된 이미지 데이터 추가
         })
     });
 
-    if (response.ok) { // 성공적으로 삭제되었을 때
+    if (response.ok) { 
         alert('수정 되었습니다.');
         window.location.href = `detailpost.html?postId=${postId}`; // 수정이 완료된 후, 상세 페이지로 리디렉션
-        // 삭제 후, 홈페이지나 다른 페이지로 리다이렉트 할 수 있습니다.
-        // 예: window.location.href = 'index.html';
     } else {
-        // 서버에서 문제가 발생했을 때의 처리
         alert('수정 실패. 서버에 문제가 발생했습니다.');
     }
     } catch (error) {
