@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-// 예를 들어, 수정 폼의 제출 버튼에 대한 이벤트 리스너를 추가합니다.
+
 completeButton.addEventListener('click', async function(e) {
     e.preventDefault(); // 폼 기본 제출 방지
     
