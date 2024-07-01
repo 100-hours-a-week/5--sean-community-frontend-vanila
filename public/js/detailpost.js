@@ -18,6 +18,19 @@ var currentEditingComment = null;
 var currentCommentId = null;
 var currentUserId = null;
 
+document.addEventListener('DOMContentLoaded', async function() {
+    // ... 기존 코드 ...
+    try {
+        const sessionResponse = await fetch('http://localhost:3001/users/session', {
+            credentials: 'include'
+        });
+        const sessionData = await sessionResponse.json();
+        currentUserId = sessionData.result; // 27번째 줄
+    } catch (error) {
+        console.error('Error fetching session data:', error);
+    }
+});
+
 mainButton.addEventListener('click', function(){
     window.location.href = 'checkpostlist.html';
 });
@@ -67,6 +80,8 @@ document.addEventListener('DOMContentLoaded',async function() {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('postId');
     const imageElement = document.querySelector('.content-thumbnail');
@@ -82,10 +97,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelector('.content-author-date').textContent = post.createtime;
                 document.querySelector('.content-paragraph').textContent = post.content;
                 document.querySelector('.content-author-img').src = post.profile_image;
-                imageElement.src = `http://localhost:3001${post.image}`;
-                imageElement.style.width = '100%';  // 이미지의 너비를 부모 요소의 100%로 설정
-                imageElement.style.height = 'auto';  // 이미지의 높이를 자동으로 조정
-                imageElement.style.objectFit = 'contain';  // 이미지 비율을 유지하면서 요소에 맞춤
+                if (post.image) {
+                    imageElement.src = `http://localhost:3001${post.image}`;
+                    imageElement.style.display = 'block';
+                    imageElement.style.width = '100%';  // 이미지의 너비를 부모 요소의 100%로 설정
+                    imageElement.style.height = 'auto';  // 이미지의 높이를 자동으로 조정
+                    imageElement.style.objectFit = 'contain';  // 이미지 비율을 유지하면서 요소에 맞춤
+                } else {
+                    imageElement.style.display = 'none'; // 이미지가 없으면 숨김
+                }  // 이미지 비율을 유지하면서 요소에 맞춤
                 document.querySelector('.content-view-button p:first-child').textContent = formatCount(Number(post.views));
                 document.querySelector('.content-comment-button p:first-child').textContent = formatCount(Number(post.comments));
             }
@@ -93,7 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 게시글 수정 버튼 이벤트 추가
             editButton.addEventListener('click', function(e) {
-                if (post.userId !== currentUserId) {
+                console.log("post.userid", post.userid)
+                console.log("currentUserId", currentUserId)
+
+                if (post.userid !== currentUserId) {
                     e.preventDefault();
                     alert('게시글 작성자만 수정할 수 있습니다.');
                     return;
@@ -108,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // 게시글 삭제 버튼 이벤트 추가
             deleteButton.addEventListener('click',function(e){
                 //display 속성을 block로 변경
-                if (post.userId !== currentUserId) {
+                if (post.userid !== currentUserId) {
                     e.preventDefault();
                     alert('게시글 작성자만 삭제할 수 있습니다.');
                     return;
@@ -195,10 +218,15 @@ document.addEventListener('DOMContentLoaded', () => {
             // 댓글 삭제 버튼 이벤트 추가
             // 댓글 삭제 버튼 이벤트 추가
             commentElement.querySelector('.comment-delete-button').addEventListener('click', function() {
+                if (comment.userId !== currentUserId) {
+                    alert('댓글 작성자만 삭제할 수 있습니다.');
+                    return;
+                }
+
                 commentModal.style.display = 'block';
                 commentModalConfirm.onclick = async () => {
                     try {
-                        const response = await fetch(`http://localhost:3001/comments/${comment.commentId}`, {
+                        const response = await fetch(`http://localhost:3001/comments/${comment.commentid}`, {
                             method: 'DELETE',
                             credentials: 'include', // 세션 쿠키를 함께 전송
                             headers: {
@@ -230,9 +258,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 댓글 수정 버튼 이벤트 추가
             commentElement.querySelector('.comment-edit-button').addEventListener('click', function() {
+                if (comment.userId !== currentUserId) {
+                    alert('댓글 작성자만 수정할 수 있습니다.');
+                    return;
+                }
+
                 isEditing = true;
                 currentEditingComment = commentElement.querySelector('.comment-author-content');
-                currentCommentId = comment.commentId;
+                currentCommentId = comment.commentid;
                 var originalContent = currentEditingComment.textContent;
                 commentInput.value = originalContent;
                 commentSubmitButton.textContent = '댓글 수정';
@@ -247,6 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
     commentSubmitButton.addEventListener('click', async function(event) {
         event.preventDefault();
         const commentContent = commentInput.value.trim();
+        console.log("currentCommentId:", currentCommentId)
 
         if (!commentContent) {
             alert('댓글 내용을 입력해주세요.');
